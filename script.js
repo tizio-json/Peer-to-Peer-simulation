@@ -1,16 +1,4 @@
-/*
-class Animal {
-    constructor(name, age) {
-        this.name = name;
-        this.age = age;
-    }
-    speak() {
-        console.log(`${this.name} makes a noise.`);
-    }
-}
-let myAnimal = new Animal("Leo", 3);
-myAnimal.speak(); // output: "Leo makes a noise."
-*/
+
 
 var nodes = []
 console.log(nodes)
@@ -270,31 +258,3 @@ function getDate(){
     return date
 }
 
-/*
-// Nodo A
-async function nodeA() {
-    console.log("Nodo A: Inizio");
-  
-    // Esegue un'operazione asincrona e restituisce il risultato
-    const result = await nodeB();
-  
-    console.log("Nodo A: Fine");
-  }
-  
-  // Nodo B
-  async function nodeB() {
-    console.log("Nodo B: Inizio");
-  
-    // Restituisce una Promise che viene risolta dopo un certo intervallo di tempo
-    return new Promise(resolve => {
-      setTimeout(() => {
-        console.log("Nodo B: Fine");
-        resolve("Risultato operazione asincrona");
-      }, 2000);
-    });
-  }
-  
-  // Esegui i nodi
-  nodeA();
-
-*/
