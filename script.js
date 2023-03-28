@@ -238,7 +238,7 @@ console.table(filteredArray)
 function eseguiConProb(failPRob) {
     return !(Math.random() <= failPRob);
     /*
-    if (Math.random() < failPRob) {
+    if (Math.random() <= failPRob) {
         // Esegui la funzione
         console.log("La funzione è stata eseguita con successo.");
     } else {
