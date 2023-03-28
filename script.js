@@ -214,8 +214,8 @@ class Node {
     }
 }
 
-width_range = getComputedStyle(document.documentElement).getPropertyValue('--container-w')
-height_range = getComputedStyle(document.documentElement).getPropertyValue('--container-h')
+// width_range = getComputedStyle(document.documentElement).getPropertyValue('--container-w')
+// height_range = getComputedStyle(document.documentElement).getPropertyValue('--container-h')
 
 for(i=0; i<5; i++){
     new Node((Math.random()*1190)+10, (Math.random()*890)+10)
