@@ -258,3 +258,16 @@ function getDate(){
     return date
 }
 
+genForm = document.getElementById("new-values");
+genForm.addEventListener("submit", (event) => {
+event.preventDefault();
+container=document.getElementById("container");
+container.remove();
+newContainer = document.createElement("div");
+newContainer.setAttribute("id", "container");
+document.appendChild(newContainer);
+nInput = document.getElementById("n");
+for(i=0; i<parseInt(nInput); i++){
+    new Node((Math.random()*1190)+10, (Math.random()*890)+10)
+}
+});
