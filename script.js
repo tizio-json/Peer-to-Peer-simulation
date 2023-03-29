@@ -32,7 +32,6 @@ class Node {
         this.listeners = {};
         this.create();
         this.updateNodesList()
-        // this.failTimer();
         this.send_data();
         this.initNode();
     }
@@ -158,26 +157,27 @@ class Node {
     }
     
     async send_data(){
-            setInterval(() => { 
-                return new Promise(resolve => {
-                    resolve(() => {   
-                        if(!(this.isFailed)){
-                            if (eseguiConProb(this.probVal)){
-                                this.vis_send_data();
-                                /* send data */
-                                this.prepareData().forEach((node_dest) => {
-                                    this.other_nodes_data[this.id][1] = getDate();
-                                    this.emit(node_dest.id, this.other_nodes_data);
-                                })                        
-                            }
-                            else{
-                                this.changeStatus = true;
-                                console.log(`${this.id} fallito`)
-                            }
+        var intervalID = setInterval(() => { 
+            return new Promise(resolve => {
+                resolve(() => {   
+                    if(!(this.isFailed)){
+                        if (eseguiConProb(this.probVal)){
+                            this.vis_send_data();
+                            /* send data */
+                            this.prepareData().forEach((node_dest) => {
+                                this.other_nodes_data[this.id][1] = getDate();
+                                this.emit(node_dest.id, this.other_nodes_data);
+                            })                        
                         }
-                    });
-                }).then(callback => callback());
-            }, this.heart_rate); 
+                        else{
+                            this.changeStatus = true;
+                            console.log(`${this.id} fallito`);
+                            clearInterval(intervalID);
+                        }
+                    }
+                });
+            }).then(callback => callback());
+        }, this.heart_rate); 
 
     }
     /*
@@ -260,14 +260,23 @@ function getDate(){
 
 genForm = document.getElementById("new-values");
 genForm.addEventListener("submit", (event) => {
-event.preventDefault();
-container=document.getElementById("container");
-container.remove();
-newContainer = document.createElement("div");
-newContainer.setAttribute("id", "container");
-document.appendChild(newContainer);
-nInput = document.getElementById("n");
-for(i=0; i<parseInt(nInput.value); i++){
-    new Node((Math.random()*1190)+10, (Math.random()*890)+10)
-}
+    event.preventDefault();
+    /*
+    container = document.getElementById("container");
+    container.remove();
+    newContainer = document.createElement("div");
+    newContainer.setAttribute("id", "container");
+    document.body.insertBefore(newContainer, genForm);
+    nodes.forEach((node) => {
+        delete node;
+    })
+    nodes = []
+    nInput = document.getElementById("n");
+    setTimeout(() => {
+        for(i=0; i<parseInt(nInput.value); i++){
+            new Node((Math.random()*1190)+10, (Math.random()*890)+10)
+        }
+    }, 1000)
+    */
 });
+
