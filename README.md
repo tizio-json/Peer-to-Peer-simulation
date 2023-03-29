@@ -1,1 +1,1 @@
-# Peer-to-Peer-simulation
+# Simulation of a peer-to-peer network
