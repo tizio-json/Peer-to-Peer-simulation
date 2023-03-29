@@ -267,7 +267,7 @@ newContainer = document.createElement("div");
 newContainer.setAttribute("id", "container");
 document.appendChild(newContainer);
 nInput = document.getElementById("n");
-for(i=0; i<parseInt(nInput); i++){
+for(i=0; i<parseInt(nInput.value); i++){
     new Node((Math.random()*1190)+10, (Math.random()*890)+10)
 }
 });
