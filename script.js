@@ -39,7 +39,6 @@ class Node {
         this.listeners = {};
         this.create();
         this.updateNodesList()
-        // this.failTimer();
         this.send_data();
         this.initNode();
         this.T_Fail_check()
@@ -101,25 +100,6 @@ class Node {
                 });
             }).then(callback => callback());
         }, T_FAIL);
-
-        /*
-        var interval_id = setInterval(async () => { 
-            const callback = await new Promise(resolve => {
-
-                resolve(() => {
-
-                    if (!(this.isFailed)) {
-                        this.T_Fail_action();
-                    }
-                        
-                    else {
-                        clearInterval(interval_id);
-                    }
-                });
-            });
-            return callback();
-        }, T_FAIL);
-        */
     }
 
 
@@ -128,13 +108,8 @@ class Node {
         if (this.other_nodes_data) {
             for (let objKey in this.other_nodes_data) {
                 let obj = this.other_nodes_data[objKey];
-                // console.log(obj[1])
-                // console.log(getDate())
-                // console.log(getDate() - obj[1])
-                // console.log(!((getDate() - obj[1]) <= T_FAIL))
+                
                 if (!((getDate() - obj[1]) <= T_FAIL)) {
-                    // console.log(obj);
-                    // console.log(obj[1]);
                     console.log(`id: ${this.id}; id_eliminato: ${objKey}`)
                     delete this.other_nodes_data[objKey];
                 }
@@ -142,27 +117,9 @@ class Node {
         }
     }
 
-    // T_Fail_action(){
-    //     console.log("TFAIL_ACTION")
-    //     if(this.other_nodes_data){
-    //         for (let info in this.other_nodes_data) {
-    //             for (let key in info){
-    //                 console.log(info[key][1])
-    //                 console.log(getDate())
-    //                 console.log(getDate() - info[key][1])
-    //                 if(!((getDate() - info[key][1]) >= T_FAIL)){
-    //                     console.log(`${info}: ${info[key]}`)
-    //                     delete info[key];
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
     initNode(){
 
         this.addEventListener(this.id, (data, comunication_data) => {
-            // console.log(`Nodo: ${this.id}; data: ${data}`);
             for (let key in data) {
                 if (key in this.other_nodes_data) {
                   if (data[key][1] < this.other_nodes_data[key][1]) {
@@ -172,14 +129,13 @@ class Node {
                   this.other_nodes_data[key] = data[key];
                 }
               }
-            // console.log(comunication_data)
+
             for (let key in comunication_data) {
                 if (!this.comunication_data.hasOwnProperty(key)) {
                     this.comunication_data[key] = comunication_data[key];
                 }
             }
           });
-        // this.comunication_data = {id: this.id, date: getDate()}
     }
 
     create() {
@@ -203,17 +159,17 @@ class Node {
     vis_send_data(){
         var this_nodo = document.querySelector(`div[data-id='${this.id}']`)
         this_nodo.style.backgroundColor = "#0f0";
-        // var circle = document.createElement("div");
-        // circle.classList.add("circle");      
-        // circle.style.left = `${this.x}px`;      
-        // circle.style.bottom = `${this.y}px`;      
-        // container.appendChild(circle)
-        // console.log(`X: ${this.x}; Y: ${this.y}; cerchio_left: ${circle.style.left}; cerchio_bottom: ${circle.style.bottom}; cerchio_top: ${circle.style.top}; cerchio_right: ${circle.style.right};`)
+        /*
+        var circle = document.createElement("div");
+        circle.classList.add("circle");      
+        circle.style.left = `${this.x}px`;      
+        circle.style.bottom = `${this.y}px`;      
+        container.appendChild(circle)
         
-        // setTimeout(() => {
-        //     document.getElementsByClassName("circle")[0].remove();
-        // }, 2*1000)
-      
+        setTimeout(() => {
+            document.getElementsByClassName("circle")[0].remove();
+        }, 2*1000)
+        */
         setTimeout(() => {
             this_nodo.style.backgroundColor = this.color;
         }, 500);
@@ -255,7 +211,6 @@ class Node {
 
             if (Object.keys(this.comunication_data).length != 0){
                 comunication_data=this.comunication_data
-
             }
 
             var interval_id = setInterval(() => { 
@@ -282,50 +237,9 @@ class Node {
                     });
                 }).then(callback => callback());
             }, this.heart_rate); 
-
-            /*
-                var interval_id = setInterval(async () => { 
-                const callback = await new Promise(resolve => {
-
-                    resolve(() => {
-
-                        if (!(this.isFailed)) {
-                            if (eseguiConProb(this.probVal)) {
-                                this.vis_send_data();
-                                this.prepareData().forEach((node_dest) => {
-                                    this.other_nodes_data[this.id][1] = getDate();
-
-                                    this.emit(node_dest.id, this.other_nodes_data, comunication_data);
-                                });
-                            }
-                            else {
-                                this.changeStatus = true;
-                                console.log(`${this.id} fallito`);
-                                clearInterval(interval_id);
-                            }
-                        }
-                    });
-                });
-                return callback();
-            }, this.heart_rate);
-            */
-
     }
-    /*
-    async send_data() {
-        if (!this.isFailed) {
-            while (true) {
-                await new Promise(resolve => {
-                    setTimeout(() => {
-                        resolve();
-                    }, this.heart_rate);
-                });
-                await this.vis_send_data();
-            }
-        }
-    }
-    */
-
+    
+    // deprecata
     async failTimer() {
         // randomTime range => 5_000ms to 30_000ms
         const randomTime = (Math.random() * (30_000-5000)) + 5000;
@@ -356,9 +270,7 @@ for(i=0; i<NODI; i++){
     new Node((Math.random()*1190)+10, (Math.random()*890)+10)
 }
 
-// console.log(nodes)
 max_heartRate = nodes.map(node => node.heart_rate).reduce((a, b) => Math.max(a,b))
-// console.log(max_heartRate)
 
 ordered_nodes = nodes.sort((a, b) => a.heart_rate - b.heart_rate);
 console.log(ordered_nodes)
@@ -386,11 +298,13 @@ function eseguiConProb(failPRob) {
 
 function getDate(){
     let date = new Date();
+    /*
     let day = String(date.getDay()).padStart(2, '0')
     let month = String(date.getMonth()).padStart(2, '0')
     let hours = String(date.getHours()).padStart(2, '0')
     let minutes = String(date.getMinutes()).padStart(2, '0')
     let seconds = String(date.getSeconds()).padStart(2, '0')
+    */
     return date
 }
 
